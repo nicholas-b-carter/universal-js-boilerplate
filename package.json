@@ -49,7 +49,7 @@
     "js:app": "watchify -e build/app.js -p browserify-hmr -v -d --delay 16 -o 'exorcist dist/app.js.map > dist/app.js'",
     "js:serviceworker": "watchify -e build/serviceworker.js -p browserify-hmr -v -d --delay 16 -o 'exorcist dist/serviceworker.js.map > dist/serviceworker.js'",
     "js": "npm-run-all js:*",
-    "js-once": "browserify -e build/app.js -v -d  | exorcist dist/app.js.map > dist/app.js; browserify -e build/serviceworker.js -v -d  | exorcist dist/serviceworker.js.map | uglifyjs -c -o dist/serviceworker.js;",
+    "js-once": "browserify -e build/app.js -v -d  | exorcist dist/app.js.map | uglifyjs -c -o dist/app.js; browserify -e build/serviceworker.js -v -d  | exorcist dist/serviceworker.js.map | uglifyjs -c -o dist/serviceworker.js;",
     "server": "forever app.js -wfa",
     "s": "npm-run-all --parallel watch server",
     "stop": "forever stopall",
