@@ -10,6 +10,7 @@ var urlsToCache = [
 
 // Set the callback for the install step
 self.addEventListener('install', (event) => {
+    self.skipWaiting()
     // console.log('installing', event)
     // Perform install steps
     event.waitUntil(
@@ -75,4 +76,8 @@ self.addEventListener('activate', (event) => {
             )
         })
     )
+})
+
+self.addEventListener('push', event => {
+    // push message received
 })
