@@ -6,10 +6,10 @@ import polyfill from "babel-polyfill"
 // if you uncomment 'universal-utils' below, you can comment out this line
 import fetch from "isomorphic-fetch"
 
-// universal utils: cache, fetch, store, resource, fetcher, router, vdom, etc
 // import * as u from 'universal-utils'
-// const {fp,vdom,lazy,hamt,csp,fetch,router} = u,
+// const {fp,vdom,lazy,hamt,csp,fetch:_fetch,router:{router:_r}} = u,
 //     {debounce,m,html,rAF,mount,update,qs,container} = vdom
+// import * as components from 'universal-utils-vdom-components'
 
 // the following line, if uncommented, will enable browserify to push
 // a changed fn to you, with source maps (reverse map from compiled
@@ -18,6 +18,7 @@ import fetch from "isomorphic-fetch"
 //     module.hot.accept()
 //     module.hot.dispose(() => {
 //         app()
+//         // update()
 //     })
 // }
 
