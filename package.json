@@ -114,6 +114,7 @@
     "request": "2.x",
     "sane": "1.x",
     "spdy": "3.x",
+    "uglifyjs": "^2.4.10",
     "universal-utils": "1.x",
     "universal-utils-vdom-components": "0.x",
     "vtop": "0.x",
