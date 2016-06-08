@@ -1,18 +1,15 @@
 import polyfill from "babel-polyfill"
-
 const cluster = require('cluster')
 import _router from 'koa-router'
 const router = _router()
-
 // middleware
-import stat from 'koa-serve-static'
+import send from 'koa-send'
 import conditional from 'koa-conditional-get'
 import bodyParser from 'koa-bodyparser'
-import Compress from 'koa-compress'
-import Morgan from 'koa-morgan'
+import compress from 'koa-compress'
+import morgan from 'koa-morgan'
 import favicon from 'koa-favicon'
 import session from 'koa-session'
-
 // adapt pre Koa 2.0 middle ware to be compatible with Koa 2.0.
 import adapt from 'koa-convert'
 import etag from 'koa-etag'
@@ -20,10 +17,7 @@ import koa from 'koa'
 import request from 'request'
 import passport from 'koa-passport'
 export const app = new koa()
-
-const logger = Morgan('combined')
-import rt from 'koa-response-time'
-
+const logger = morgan('combined')
 import enforceHttps from 'koa-sslify'
 const config = require('../config.json')
 
@@ -37,15 +31,23 @@ if(config.https){
     }
 }
 
-//-- app.use(adapt(favicon(require.resolve('./dist/favicon.ico'))))
-app.use(adapt(rt()))
-app.use(adapt(conditional()))
-app.use(adapt(etag()))
-app.use(logger)
-app.use(adapt(Compress({ flush: require('zlib').Z_SYNC_FLUSH })))
-app.keys = [ Array(4).fill(true).map(x => Math.random()+'').join('') ]
-app.use(adapt(session({ maxAge: 24 * 60 * 60 * 1000 }, app)))
-app.use(adapt(bodyParser()))
+// app.use(favicon(__dirname+'../dist/icon.ico'))
+// app.use(rt())
+// app.use(logger)
+app.use(compress({
+    filter: () => true,
+    flush: require('zlib').Z_SYNC_FLUSH
+}))
+app.use(async (ctx,next) => {
+    await next()
+    await send(ctx, ctx.path, { root: __dirname + '/../dist' })
+})
+// app.use(conditional())
+// app.use(etag())
+// app.keys = [ Array(4).fill(true).map(x => Math.random()+'').join('') ]
+// app.use(adapt(session({ maxAge: 24 * 60 * 60 * 1000 }, app)))
+// app.use(bodyParser())
+
 
 /*
 Turn on passport (authenticate your users through twitter, etc)
@@ -239,4 +241,3 @@ const enableREST = (router) => {
 
 app.use(router.routes())
 app.use(router.allowedMethods())
-app.use(stat('dist'))
