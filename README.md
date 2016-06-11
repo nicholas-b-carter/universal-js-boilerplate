@@ -5,9 +5,10 @@
 This is a scaffolding project that includes boilerplate code for:
 
 - Node
-- Heroku configuration
+- Heroku configuration, [otto](http://ottoproject.io) configuration, docker and docker-compose configurations, TravisCI configuration
+- example git hooks
 - Babel, Babel runtime, ES6/2015, ES7/2016
-- Node-sass, some example SCSS, grids, normalize and typeplate css kits (installed from bower)
+- PostCSS, some boilerplate SCSS, grids, normalize and typeplate css kits (installed from bower)
 - Example files/resources
 - An example .gitignore for the project
 - A host of npm scripts for watching and building your files
@@ -15,23 +16,7 @@ This is a scaffolding project that includes boilerplate code for:
 
 # Major Changes
 
-## V2.0 - Koa v2 is now the serverside library handling requests
-
-This Koa v2 code has some default code setup for hosting code over HTTPS, as well as taking advantage of the SPDY & HTTP/2 protocols for even faster content delivery. Here's an overview of the features:
-
-* Socket.io support with sticky-sessions (for HAProxy)
-* Clustering with the cluster module
-* Smart header support for ETags and conditional gets
-* Gzip compression on responses
-* Signed, cookie-based sessions
-* Request logging (morgan)
-* Static file serving
-* Favicon middleware
-* HTTP/2 and SPDY over TLS
-* Routing with async or sync routes (via Koa itself)
-* Support for Koa 1.0 and 2.0 middleware with koa-adapter
-
-More info about Koa v2 here: https://github.com/koajs/koa/tree/v2.x
+For a list of changes and features updated between major versions, see the [CHANGELOG](./CHANGELOG.md).
 
 # Getting Started
 
@@ -48,7 +33,7 @@ More info about Koa v2 here: https://github.com/koajs/koa/tree/v2.x
 2. Install prerequisites
 
     ```sh
-    npm install
+    npm i
     ```
 
 3. Start your server:
@@ -56,7 +41,7 @@ More info about Koa v2 here: https://github.com/koajs/koa/tree/v2.x
     ```sh
     npm run s
 
-    # Alternatively, if doing server-side work
+    # Alternatively, if doing server-side work, make your server restart when you edit code:
     # npm run n
     ```
 
@@ -84,7 +69,7 @@ More info about Koa v2 here: https://github.com/koajs/koa/tree/v2.x
 
     > Note: you can teardown a surge.sh URL with `npm run teardown`, which will prompt you for the URL to bring down
 
-7. Want to generate your own documentation with [esdocs](https://github.com/esdoc/esdoc)?
+7. Want to generate your own documentation with [esdocs](https://github.com/esdoc/esdoc) or your own styleguide with [postcss-style-guide](https://github.com/morishitter/postcss-style-guide)?
 
     ```sh
     # build docs and open locally
@@ -93,6 +78,10 @@ More info about Koa v2 here: https://github.com/koajs/koa/tree/v2.x
     # or build AND publish to gh-pages or to surge
     npm run docs:gh-pages
     npm run docs:surge
+
+    # build a styleguide
+    npm run css
+    open dist/styleguide.html
     ```
 
 8. Need shields?
