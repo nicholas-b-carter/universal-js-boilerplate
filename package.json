@@ -40,7 +40,7 @@
     "squash_msg": "'squashing commits down to 1 commit'"
   },
   "scripts": {
-    "css": "postcss styles/style.scss --use precss --use postcss-calc --use autoprefixer --autoprefixer.browsers '> 50%' --use csswring -o ./dist/style.css",
+    "css": "postcss styles/style.scss --use precss --use postcss-calc --use autoprefixer --autoprefixer.browsers '> 50%' --use postcss-style-guide --postcss-style-guide.src 'styles/style.scss' --postcss-style-guide.dest 'dist/styleguide.html' --use csswring -o ./dist/style.css",
     "watch:js": "sane 'forever restartall' --glob='build/**/*.js'",
     "watch:styles": "sane 'npm-run-all css' --glob='styles/**/*.scss' --glob='styles/**/*.css'",
     "watch": "npm-run-all --parallel transpile js watch:styles",
@@ -119,6 +119,7 @@
     "npm-run-all": "^2.x",
     "postcss-calc": "5.x",
     "postcss-cli": "2.x",
+    "postcss-style-guide": "^0.13.0",
     "precss": "1.x",
     "react": "15.x",
     "react-dom": "15.x",

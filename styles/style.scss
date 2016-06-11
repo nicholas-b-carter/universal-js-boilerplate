@@ -79,11 +79,52 @@ ul, ol {
 @mixin grid_r 2, 400;
 @mixin grid_r 2, 640;
 @mixin grid_r 2, 800;
+@mixin grid_r 2, 1024;
+@mixin grid_r 2, 1280;
 @mixin grid_r 4, 400;
+@mixin grid_r 4, 640;
 @mixin grid_r 4, 800;
+@mixin grid_r 4, 1024;
+@mixin grid_r 4, 1280;
+@mixin grid_r 8, 400;
+@mixin grid_r 8, 640;
 @mixin grid_r 8, 800;
 @mixin grid_r 8, 1024;
 @mixin grid_r 8, 1280;
+
+/*
+@styleguide
+
+@title Grid
+
+Use the grid, and a combination of grid-{cols}, and grid-{cols}-{min-width} classes powered by inline-block layout to create a scaffold and structure for your page layout. The element being applied the grid class can be any tag, and the children can be any tag, i.e.
+
+    div.grid.grid-4-1024
+        span
+        span
+        a
+        div
+
+    ul.grid.grid-2.grid-4-1024
+        li
+        li
+        li
+
+<div class="grid grid-2 grid-4-1024">
+    <div>I am a grid element</div>
+    <div>I am a grid element</div>
+    <div>I am a grid element</div>
+    <div>I am a grid element</div>
+</div>
+
+    <div class="grid grid-2 grid-4-1024">
+        <div>I am a grid element</div>
+        <div>I am a grid element</div>
+        <div>I am a grid element</div>
+        <div>I am a grid element</div>
+    </div>
+
+*/
 
 /**
  * GENERAL
@@ -94,34 +135,6 @@ img {
 }
 body {
     font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
-}
-
-/**
- * PACE (automatic pre-loader thingy)
- */
-
-.pace {
-    pointer-events: none;
-    user-select: none;
-    transition: all 1s ease;
-    .pace-progress {
-        background: #2299dd;
-        position: fixed;
-        z-index: 2000;
-        top: 0;
-        right: 100%;
-        width: 100%;
-        height: 2px;
-        transition: all 1s ease;
-    }
-}
-
-.pace-inactive {
-    opacity: 0;
-}
-
-.pace-active {
-    opacity: 1;
 }
 
 /**

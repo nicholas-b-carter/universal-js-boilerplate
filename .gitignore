@@ -13,6 +13,7 @@ dist/app.js
 dist/app.js.map
 dist/style.css
 dist/esdoc
+dist/styleguide.html
 bower_components
 .otto/
 letsencrypt/
