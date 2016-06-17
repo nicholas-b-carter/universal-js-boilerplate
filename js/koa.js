@@ -32,7 +32,6 @@ if(config.https){
 }
 
 // app.use(favicon(__dirname+'../dist/icon.ico'))
-// app.use(rt())
 // app.use(logger)
 app.use(compress({
     filter: () => true,
@@ -48,10 +47,57 @@ app.use(async (ctx,next) => {
 // app.use(adapt(session({ maxAge: 24 * 60 * 60 * 1000 }, app)))
 // app.use(bodyParser())
 
+// simple middleware that converts querystring into key-value pairs
+const parse = qs => qs.split('&').reduce((a,v,i) => {
+    let [key, val] = v.split('=')
+    if(!key) return a
+    return {...a, [key]: val || true}
+}, {})
 
-/*
-Turn on passport (authenticate your users through twitter, etc)
+app.use(async (ctx, next) => {
+    ctx.queryparams = parse(ctx.request.querystring)
+    await next()
+})
+
+/**
+ * RESTful API
  */
+// import enableREST from './enableREST'
+// import * as models from './models'
+// import s from 'sequelize'
+// enableREST(router, 'users', models.User)
+// enableREST(router, 'answers', models.Answer)
+// enableREST(router, 'polls', models.Poll)
+
+// example manual route that queries DB
+// router.get('/api/polls', async (ctx, next) => {
+//     await models.Poll.findAll({include: [models.Answer]}).then(data => ctx.body = JSON.stringify(data))
+// })
+
+/**
+ * Turn on passport (authenticate your users through twitter, etc)
+ */
+
+// passport.serializeUser((user, done) =>
+//     models.User.findById(user.id).then(user =>
+//         !user ? done('No user exists with that UserId') : done(null, user.id)))
+
+// passport.deserializeUser((id, done) =>
+//     models.User.findById(id).then(user =>
+//         !user ? done('No user exists with that UserId') : done(null, user)))
+
+// const LocalStrategy = require('passport-local').Strategy
+// import crypto from 'crypto'
+// passport.use(new LocalStrategy((email, password, done) => {
+//     let hash = crypto.createHash('sha256')
+//     hash.update(password)
+//     models.User.findOne({
+//         where: {
+//             email: { $eq : email },
+//             hash: { $eq: hash.digest('base64') }
+//         }
+//     }).then(user => !user ? done(null, false) : done(null, user))
+// }))
 
 // uncomment to enable passport
 // app.use(passport.initialize())
@@ -62,10 +108,13 @@ Turn on passport (authenticate your users through twitter, etc)
 //     ctx.redirect('/')
 // })
 
-const authVia = (router, name, success='/', failure='/failure-to-auth') => {
-    router.get(`/auth/${name}`, passport.authenticate(name))
-    router.get(`/auth/${name}/callback`, passport.authenticate(name, {successRedirect: success, failureRedirect: failure}))
-}
+// router.post('/login',
+//     passport.authenticate('local', {successRedirect: '/', failureRedirect: '/'}))
+
+// const authVia = (router, name, success='/', failure='/failure-to-auth') => {
+//     router.get(`/auth/${name}`, passport.authenticate(name))
+//     router.get(`/auth/${name}/callback`, passport.authenticate(name, {successRedirect: success, failureRedirect: failure}))
+// }
 
 // uncomment to enable auth via facebook
 // authVia(router, 'facebook')
@@ -87,47 +136,8 @@ const authVia = (router, name, success='/', failure='/failure-to-auth') => {
 //     }
 // })
 
-/*
-Routes go here
-*/
-
 // default proxying
-const replaceRemoteTokens = (ctx, webUrl, tokens=webUrl.match(/:(\w+)/ig)) =>
-    (tokens || []).reduce((a, t) =>
-        a.replace(new RegExp(t, 'ig'), ctx.params[t.substr(1)]), webUrl)
-
-const get = (url, headers={}) =>
-    new Promise((res,rej) => {
-        request({
-            url,
-            headers: {
-                'User-Agent': 'request',
-                ...headers
-            }
-        }, (error, response, body) => {
-            if(!error) { // && response.statusCode === 200
-                return res(body)
-            }
-            return rej(error)
-        })
-    })
-
-const proxify = (router, localUrl, webUrl, headers) => {
-    router.get(localUrl, async (ctx, next) => {
-        try {
-            var data = await get(replaceRemoteTokens(ctx, webUrl) + (ctx.req._parsedUrl.search || ''), headers)
-        } catch(e) {
-            ctx.body = e
-            return
-        }
-        ctx.body = data
-    })
-
-    // router.post(localUrl, async (ctx, next) => {
-    //     let data = await request.post(replaceRemoteTokens(ctx.req, webUrl) + ctx.req._parsedUrl.search)//, {form:ctx.req.query})
-    //     ctx.body = data
-    // })
-}
+import proxify from './proxy'
 
 // add your proxies here.
 //
@@ -136,12 +146,15 @@ const proxify = (router, localUrl, webUrl, headers) => {
 // proxify(router, '/brewery/styles', 'https://api.brewerydb.com/v2/styles')
 // proxify(router, '/macrofab/:r1/:r2/:r3', 'https://demo.development.macrofab.com/api/v2/:r1/:r2/:r3', {Accept: 'application/json'})
 
-// uncomment the lines below to enable an in-memory RESTful endpoint
-// import enableREST from './enableREST'
-// enableREST(router)
+/**
+ * Other routes (HTML, etc)
+**/
 
-// example routes
-//
+// import {index} from './partials'
+router.get(['/', '/index.html'], ctx => {
+    ctx.body = index()
+})
+
 // router.get('/', (ctx, next) => {
 //     ctx.status = 200
 //     ctx.body = 'Hello world from worker ' + (cluster.worker ? cluster.worker.id : '') + '!'
@@ -151,6 +164,7 @@ const proxify = (router, localUrl, webUrl, headers) => {
 //     console.log(ctx.params.id)
 //     ctx.body = { name:'test', id: id }
 // })
+
 
 app.use(router.routes())
 app.use(router.allowedMethods())

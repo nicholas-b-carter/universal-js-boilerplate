@@ -3,7 +3,6 @@ import polyfill from "babel-polyfill"
 
 //
 // fetch method, returns es6 promises
-// if you uncomment 'universal-utils' below, you can comment out this line
 import fetch from "isomorphic-fetch"
 
 // import * as u from 'universal-utils'

@@ -37,7 +37,9 @@
   },
   "config": {
     "squash_reset": "HEAD~1",
-    "squash_msg": "'squashing commits down to 1 commit'"
+    "squash_msg": "'squashing commits down to 1 commit'",
+    "test_admin_email": "test@gmail.com",
+    "test_admin_password": "test"
   },
   "scripts": {
     "css": "postcss styles/style.scss --use precss --use postcss-calc --use autoprefixer --autoprefixer.browsers '> 50%' --use postcss-style-guide --postcss-style-guide.src 'styles/style.scss' --postcss-style-guide.dest 'dist/styleguide.html' --use csswring -o ./dist/style.css",
@@ -116,16 +118,20 @@
     "koa-sslify": "1.x",
     "letsencrypt-express": "1.x",
     "moment": "2.x",
+    "mysql": "2.x",
     "npm-run-all": "^2.x",
+    "passport-local": "1.x",
     "postcss-calc": "5.x",
     "postcss-cli": "2.x",
-    "postcss-style-guide": "^0.13.0",
+    "postcss-style-guide": "^0.x",
     "precss": "1.x",
     "react": "15.x",
     "react-dom": "15.x",
     "request": "2.x",
     "sane": "1.x",
+    "sequelize": "3.x",
     "spdy": "3.x",
+    "sqlite3": "3.x",
     "uglifyjs": "^2.4.10",
     "universal-utils": "1.x",
     "universal-utils-vdom-components": "0.x",
