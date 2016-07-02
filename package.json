@@ -1,6 +1,6 @@
 {
   "name": "universal-js-boilerplate",
-  "version": "2.3.14",
+  "version": "2.3.15",
   "author": "Matthew Keas (@matthiasak)",
   "license": "MIT",
   "main": "app.js",
@@ -63,7 +63,7 @@
     "stop": "forever stopall",
     "start": "npm-run-all server",
     "ssh": "docker exec -ti nodeApp /bin/bash",
-    "deploy": "gcloud preview app deploy --stop-previous-version",
+    "deploy": "git add .; git commit -am 'making updates'; npm version patch; git push origin master;",
     "n": "npm-run-all --parallel watch watch:js server",
     "top": "vtop",
     "test": "ava test/main.js",
@@ -81,7 +81,6 @@
     "squash": "git reset $npm_package_config_squash_reset; git add .; git commit -am $npm_package_config_squash_msg; git push origin HEAD --force;",
     "squash:reset": "npm run squash --squash_reset:universal-js-boilerplate=--",
     "amend": "git commit --amend -m --",
-    "deploy": "git add .; git commit -am 'making updates'; npm version patch; git push origin master;",
     "EXAMPLE:docker": "docker run --name db -d -e MYSQL_ROOT_PASSWORD=123 -p 3306:3306 mysql:latest",
     "docker": "docker run --",
     "docker:run": "docker run -it -p 3000:3000 --link db:db -e DATABASE_HOST=DB app",
@@ -158,7 +157,7 @@
     "ava": "0.x",
     "esdoc": "0.x",
     "esdoc-es7-plugin": "0.x",
-    "nodemon":"*",
+    "nodemon": "*",
     "nsp": "2.x",
     "surge": "0.x"
   }
