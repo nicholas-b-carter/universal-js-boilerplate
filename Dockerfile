@@ -1,15 +1,16 @@
-# Use Node v4 as the base image.
-FROM node:6.2.1
+FROM node
 
-# Add everything in the current directory to our image, as the 'app' folder.
-ADD . /app
-
-# Install dependencies
-RUN cd /app; \
-    npm install --production
+RUN mkdir -p /app
+WORKDIR /app
 
 # Expose our server port.
 EXPOSE 3000
 
-# Run our app.
-CMD ["node", "/app/index.js"]
+# cache will almost always bust here, but it's only copying files
+COPY . /app/
+
+# .deps.json will only bust the cache when the package.json dependencies change
+COPY .deps.json /app/package.json
+RUN npm install --production
+
+CMD npm start
